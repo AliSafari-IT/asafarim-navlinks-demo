@@ -1,46 +1,267 @@
-# Getting Started with Create React App
+# Getting Started with `asafarim-navlinks`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+`asafarim-navlinks` is a versatile React component for rendering navigation link items, including support for multi-level dropdown menus, icons, and emojis. This package helps in creating dynamic and stylish navigation bars for your React applications.
 
-## Available Scripts
+![Comprehensive Multi-Level Navigation Links for React](./img/asafarim-navlinks-2.png)
+`asafarim-navlinks` as a comprehensive Multi-Level Navigation Links for React
 
-In the project directory, you can run:
+## Installation
 
-### `npm start`
+To install the package via npm, run the following command:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```sh
+npm install asafarim-navlinks
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Usage
 
-### `npm test`
+Here's a step-by-step guide on how to use the `asafarim-navlinks` component in your React TypeScript application.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Step 1: Import the Component
 
-### `npm run build`
+Import the `NavLinks` component into your React application:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```tsx
+import React from 'react';
+import NavLinks from 'asafarim-navlinks';
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Step 2: Prepare the Links Data
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Create an array of link objects that you want to render. Each link can optionally contain sub-navigation items, icons, and emojis.
 
-### `npm run eject`
+**src/data.ts:**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```tsx
+export const navItems = {
+  leftAlignedNavItems: [
+    {
+      label: "Home",
+      href: "/",
+      iconRight: "fas fa-home",
+      subNav: [
+        {
+          label: "Sub Home 1",
+          href: "/sub-home-1",
+          icon: "fas fa-home-1",
+          subNav: [
+            { label: "Sub Sub Home 1", href: "/sub-sub-home-1" },
+            { label: "Sub Sub Home 2", href: "/sub-sub-home-2" },
+          ],
+        },
+        { label: "Sub Home 2", href: "/sub-home-2" },
+        {
+          label: "Sub Sub Home",
+          href: "/sub-sub-home",
+          emoji: "🏠",
+          subNav: [
+            { label: "Sub Sub Home 1", href: "/sub-sub-home-1" },
+            {
+              label: "Sub Sub Home 2",
+              href: "/sub-sub-home-2",
+              subNav: [
+                { label: "Sub Sub Sub Home 1", href: "/sub-sub-sub-home-1" },
+                { label: "Sub Sub Sub Home 2", href: "/sub-sub-sub-home-2" },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    { label: "About", href: "/about", iconRight: "fas fa-info" },
+  ],
+  middleAlignedNavItems: [
+    {
+      label: "Services",
+      href: "/services",
+      iconRight: "fas fa-tools",
+      subNav: [
+        { label: "Service 1", href: "/service-1" },
+        {
+          label: "Service 2",
+          href: "/service-2",
+          subNav: [
+            { label: "Sub Service 1", href: "/sub-service-1" },
+            { label: "Sub Service 2", href: "/sub-service-2" },
+          ],
+        },
+        {
+          label: "Service 3",
+          href: "/service-3",
+          subNav: [
+            { label: "Sub Service 1", href: "/sub-service-1" },
+            { label: "Sub Service 2", href: "/sub-service-2" },
+          ],
+        },
+      ],
+    },
+    { label: "Products", href: "/products", iconRight: "fas fa-boxes" },
+  ],
+  rightAlignedNavItems: [
+    {
+      label: "Contact",
+      href: "/contact",
+      iconRight: "fas fa-phone-alt",
+      subNav: [
+        { label: "Email", href: "/email" },
+        { label: "Sub Contact 2", href: "/sub-contact-2" },
+        {
+          label: "Phone",
+          href: "/phone",
+          subNav: [
+            { label: "Phone Landline 1", href: "/phone-landline-1" },
+            { label: "Phone Landline 2", href: "/phone-landline-2" },
+            {
+              label: "Phone Mobile",
+              href: "/phone-mobile",
+              iconLeft: "fas fa-mobile-alt",
+              subNav: [
+                { label: "Phone Mobile 1", href: "/phone-mobile-1" },
+                { label: "Phone Mobile 2", href: "/phone-mobile-2", emoji: "📱" },
+              ],
+            },
+          ],
+        },
+        { label: "Sub Contact 3", href: "/sub-contact-3" },
+      ],
+    },
+    { label: "Help", href: "/help", iconRight: "fas fa-question" },
+  ],
+};
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Step 3: Render the Component
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Use the `NavLinks` component in your JSX and pass the links array as a prop.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**src/App.tsx:**
 
-## Learn More
+```tsx
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import NavLinks from "asafarim-navlinks";
+import { navItems } from "./data";
+import "./App.css";
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const Home: React.FC = () => <h2>Home Page</h2>;
+const About: React.FC = () => <h2>About Page</h2>;
+const Services: React.FC = () => <h2>Services Page</h2>;
+const Products: React.FC = () => <h2>Products Page</h2>;
+const Contact: React.FC = () => <h2>Contact Page</h2>;
+const Help: React.FC = () => <h2>Help Page</h2>;
+const NotFound: React.FC = () => <div>
+  <h2>Page Not Found</h2>
+  <p>The page you are looking for does not exist.</p>
+  <p>Please check the URL and try again.</p>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  Go to <a href="/">Home</a>
+</div>;
+
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <nav className="navContainer">
+        <div className="navLeftAligned">
+          <NavLinks links={navItems.leftAlignedNavItems} />
+        </div>
+        <div className="navRightAligned">
+          <NavLinks
+            links={navItems.rightAlignedNavItems}
+            isRightAligned={true}
+          />
+        </div>
+      </nav>
+      <main className="mainContainer">
+        <h1>Navigation Links Demo</h1>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/mainpage" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+    </div>
+  );
+};
+
+export default App;
+
+```
+
+### Step 4: Styles
+
+Ensure your styles are set up to handle the navigation layout.
+
+**src/App.css:**
+
+```css
+.App {
+  text-align: center;
+  height: 100vh;
+  background-color: #282c34;
+  color: white;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: rgb(2, 75, 104);
+}
+
+.navLeftAligned, .navRightAligned {
+  display: flex;
+  align-items: center;
+}
+
+.mainContainer {
+  padding: 2rem;
+}
+```
+
+### Full Example
+
+Here’s a full example of how to integrate `asafarim-navlinks` into a React TypeScript project, including multi-level dropdown menus, icons, and emojis.
+
+**src/index.tsx:**
+
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import './index.css';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+### Development
+
+To contribute to this package, follow these steps:
+
+1. Clone the repository.
+2. Install the dependencies:
+
+   ```sh
+   npm install
+   ```
+
+3. Make your changes.
+4. Build the package:
+
+   ```sh
+   npm run build
+   ```
+
+5. Publish the package:
+
+   ```sh
+   npm publish --access public
+   ```
+
+### License
+
+[MIT License](LICENSE)
