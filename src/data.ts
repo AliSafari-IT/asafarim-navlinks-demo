@@ -1,3 +1,12 @@
+type NavLinkType = {
+  label: string;
+  href: string;
+  iconLeft?: string;
+  iconRight?: string;
+  emoji?: string;
+  subNav?: NavLinkType[];
+}
+
 export const navItems = {
     leftAlignedNavItems: [
       {
@@ -34,7 +43,7 @@ export const navItems = {
         ],
       },
       { label: "About", href: "/about", iconRight: "fas fa-info" },
-    ],
+    ] as NavLinkType[],
     middleAlignedNavItems: [
       {
         label: "Services",
@@ -91,5 +100,5 @@ export const navItems = {
         ],
       },
       { label: "Help", href: "/help", iconRight: "fas fa-question" },
-    ],
+    ] as NavLinkType[],
   };
